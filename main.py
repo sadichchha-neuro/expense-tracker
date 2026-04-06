@@ -345,17 +345,30 @@ with tab_history:
         # To Create Columns (Side-by-Side Display)
         col1, col2 = st.columns(2)
 
-with col1:
-    st.metric(label="Spent this Month", value="₹12,400", delta="-₹500")
+        with col1:
+           st.metric(label="Spent this Month", value="₹12,400", delta="-₹500")
 
-with col2:
-    st.metric(label="Predicted Burn Date", value="Oct 28th", delta="2 Days Early", delta_color="inverse")
-  #To Add the "Impulse Interceptor" (Behavioral Psychology)
-with st.sidebar:
-    st.header("Log New Expense")
-    amount = st.number_input("Amount (₹)", min_value=0)
-    hourly_wage = 500 # You can let the user set this in settings
+        with col2:
+           st.metric(label="Predicted Burn Date", value="Oct 28th", delta="2 Days Early", delta_color="inverse")
+        #To Add the "Impulse Interceptor" (Behavioral Psychology)
+        with st.sidebar:
+            st.header("Log New Expense")
+            amount = st.number_input("Amount (₹)", min_value=0)
+            hourly_wage = 500 # You can let the user set this in settings
     
-    if amount > 1000:
-        hours_needed = amount / hourly_wage
-        st.warning(f"⚠️ This purchase costs **{hours_needed:.1f} hours** of your life. Is it worth it?")
+        if amount > 1000:
+            hours_needed = amount / hourly_wage
+            st.warning(f"⚠️ This purchase costs **{hours_needed:.1f} hours** of your life. Is it worth it?")
+        #Change the "Vibe" with Sidebar & Tabs
+        st.title("Smart Expense Tracker")
+
+        # Create three tabs for your features
+        tab1, tab2, tab3 = st.tabs(["📊 Dashboard", "🧠 Impulse Control", "📈 Forecast"])
+
+        with tab1:
+             st.header("Monthly Overview")
+       # Add your charts here
+       st.metric(label="Food Expenses", value="₹4,500", delta="-₹300", delta_color="normal")
+# Use delta_color="inverse" if a 'positive' number is actually bad (like debt)
+       st.markdown(":green[Total Savings: ₹5,000]")
+       st.markdown(":red[Alert: Impulse Purchase Detected!]")
