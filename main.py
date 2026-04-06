@@ -183,7 +183,7 @@ with tab_overview:
 
     c1, c2, c3 = st.columns(3)
     c1.metric("Spent This Month", f"${total_spent:,.2f}")
-    c2.metric("Budget", f"${budget:,.2f}" if budget else "Not set")
+    c2.metric("Budget", f"Rupees{budget:,.2f}" if budget else "Not set")
     if budget and budget > 0:
         remaining = budget - total_spent
         c3.metric("Remaining", f"${remaining:,.2f}", delta=f"{remaining / budget * 100:.0f}%")
@@ -204,8 +204,8 @@ with tab_burn:
     burn = logic.calculate_burn_rate()
 
     c1, c2, c3 = st.columns(3)
-    c1.metric("Daily Burn Rate", f"${burn['daily_rate']:,.2f}")
-    c2.metric("Projected Monthly Total", f"${burn['monthly_projection']:,.2f}")
+    c1.metric("Daily Burn Rate", f"Rupees{burn['daily_rate']:,.2f}")
+    c2.metric("Projected Monthly Total", f"Rupees{burn['monthly_projection']:,.2f}")
     c3.metric(
         "Days Left in Month",
         burn["days_remaining"],
@@ -214,10 +214,10 @@ with tab_burn:
     if burn["budget"]:
         st.divider()
         bc1, bc2, bc3 = st.columns(3)
-        bc1.metric("Budget", f"${burn['budget']:,.2f}")
+        bc1.metric("Budget", f"Rupees{burn['budget']:,.2f}")
         bc2.metric(
             "Budget Remaining",
-            f"${burn['budget_remaining']:,.2f}" if burn["budget_remaining"] is not None else "N/A",
+            f"Rupees{burn['budget_remaining']:,.2f}" if burn["budget_remaining"] is not None else "N/A",
         )
         burnout_label = burn["burnout_date"] if burn["burnout_date"] else "Within budget"
         status_icon = "On Track" if burn["on_track"] else "Over Budget"
@@ -243,7 +243,7 @@ with tab_burn:
     st.divider()
     st.subheader("30-Day Balance Forecast")
     forecast_balance = st.number_input(
-        "Current account balance ($)",
+        "Current account balance (Rupees)",
         min_value=0.0,
         value=5000.0,
         step=100.0,
@@ -338,3 +338,24 @@ with tab_history:
             logic.delete_expense(int(del_id))
             st.success(f"Expense #{int(del_id)} deleted.")
             st.rerun()
+        # To Change Titles and Text
+        st.set_page_config(page_title="My Expense Tracker", layout="wide") # Makes the app use the whole screen
+        st.title("💰 Smart Expense Dashboard")
+        st.subheader("Your Financial Co-Pilot")
+        # To Create Columns (Side-by-Side Display)
+        col1, col2 = st.columns(2)
+
+with col1:
+    st.metric(label="Spent this Month", value="₹12,400", delta="-₹500")
+
+with col2:
+    st.metric(label="Predicted Burn Date", value="Oct 28th", delta="2 Days Early", delta_color="inverse")
+  #To Add the "Impulse Interceptor" (Behavioral Psychology)
+with st.sidebar:
+    st.header("Log New Expense")
+    amount = st.number_input("Amount (₹)", min_value=0)
+    hourly_wage = 500 # You can let the user set this in settings
+    
+    if amount > 1000:
+        hours_needed = amount / hourly_wage
+        st.warning(f"⚠️ This purchase costs **{hours_needed:.1f} hours** of your life. Is it worth it?")
