@@ -367,6 +367,6 @@ with tab_history:
              st.header("Monthly Overview")
        # Add your charts here
        st.metric(label="Food Expenses", value="₹4,500", delta="-₹300", delta_color="normal")
-# Use delta_color="inverse" if a 'positive' number is actually bad (like debt)
-st.markdown(":green[Total Savings: ₹5,000]")
-st.markdown(":red[Alert: Impulse Purchase Detected!]")
+       # Use delta_color="inverse" if a 'positive' number is actually bad (like debt)
+       st.markdown(":green[Total Savings: ₹5,000]")
+       st.markdown(":red[Alert: Impulse Purchase Detected!]")
