@@ -25,11 +25,11 @@ with st.sidebar:
     exp_date = st.date_input("Date", value=datetime.now().date())
     exp_category = st.selectbox("Category", logic.CATEGORIES)
     exp_description = st.text_input("Description")
-    exp_amount = st.number_input("Amount ($)", min_value=0.01, step=0.01, format="%.2f")
+    exp_amount = st.number_input("Amount (Rupees)", min_value=0.01, step=0.01, format="%.2f")
 
     # Hourly wage for "Hours of Life" calculator
     hourly_wage = st.number_input(
-        "Your hourly wage ($)",
+        "Your hourly wage (Rupees)",
         min_value=0.0,
         value=0.0,
         step=1.0,
@@ -60,7 +60,7 @@ with st.sidebar:
     st.header("Monthly Budget")
     current_budget = logic.get_monthly_budget()
     new_budget = st.number_input(
-        "Set budget ($)",
+        "Set budget (Rupees)",
         min_value=0.0,
         value=current_budget if current_budget else 0.0,
         step=50.0,
@@ -68,7 +68,7 @@ with st.sidebar:
     )
     if st.button("Save Budget", use_container_width=True):
         logic.set_monthly_budget(new_budget)
-        st.success(f"Budget set to ${new_budget:,.2f}")
+        st.success(f"Budget set to Rupees{new_budget:,.2f}")
         st.rerun()
 
     # ---- Receipt OCR Upload -----------------------------------------------
@@ -88,7 +88,7 @@ with st.sidebar:
             if result["merchant"]:
                 st.text_input("Detected merchant", value=result["merchant"], key="ocr_merchant", disabled=True)
             if result["amount"] is not None:
-                st.text_input("Detected amount", value=f"${result['amount']:.2f}", key="ocr_amount", disabled=True)
+                st.text_input("Detected amount", value=f"Rupees{result['amount']:.2f}", key="ocr_amount", disabled=True)
             else:
                 st.warning("Could not detect a total amount.")
             with st.expander("Raw OCR text"):
@@ -126,7 +126,7 @@ if add_clicked:
                 is_impulse=risk["is_risky"],
             )
             st.session_state.pop("impulse_confirmed", None)
-            st.sidebar.success(f"Added ${exp_amount:,.2f} for '{exp_description}'")
+            st.sidebar.success(f"Added Rupees{exp_amount:,.2f} for '{exp_description}'")
             st.rerun()
 
 # ---------------------------------------------------------------------------
@@ -186,7 +186,7 @@ with tab_overview:
     c2.metric("Budget", f"Rupees{budget:,.2f}" if budget else "Not set")
     if budget and budget > 0:
         remaining = budget - total_spent
-        c3.metric("Remaining", f"${remaining:,.2f}", delta=f"{remaining / budget * 100:.0f}%")
+        c3.metric("Remaining", f"Rupees{remaining:,.2f}", delta=f"{remaining / budget * 100:.0f}%")
     else:
         c3.metric("Remaining", "N/A")
 
@@ -253,9 +253,9 @@ with tab_burn:
     forecast = logic.forecast_30_day_burn(forecast_balance)
 
     fc1, fc2, fc3 = st.columns(3)
-    fc1.metric("Avg Daily Spend (30d)", f"${forecast['avg_daily_spend']:,.2f}")
-    fc2.metric("Total Spent (30d)", f"${forecast['total_last_30']:,.2f}")
-    fc3.metric("Projected EOM Balance", f"${forecast['projected_eom_balance']:,.2f}")
+    fc1.metric("Avg Daily Spend (30d)", f"Rupees{forecast['avg_daily_spend']:,.2f}")
+    fc2.metric("Total Spent (30d)", f"Rupees{forecast['total_last_30']:,.2f}")
+    fc3.metric("Projected EOM Balance", f"Rupees{forecast['projected_eom_balance']:,.2f}")
 
     if forecast["days_until_zero"] is not None:
         if forecast["projected_eom_balance"] < 0:
@@ -276,7 +276,7 @@ with tab_impulse:
     stats = logic.get_impulse_stats()
 
     c1, c2, c3 = st.columns(3)
-    c1.metric("Total Impulse Spending", f"${stats['total_impulse']:,.2f}")
+    c1.metric("Total Impulse Spending", f"Rupees{stats['total_impulse']:,.2f}")
     c2.metric("Impulse Purchases", stats["impulse_count"])
     c3.metric("Impulse % of Total", f"{stats['impulse_pct']:.1f}%")
 
