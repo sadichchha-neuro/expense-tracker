@@ -357,16 +357,4 @@ with tab_history:
         if amount > 1000:
             hours_needed = amount / hourly_wage
             st.warning(f"⚠️ This purchase costs **{hours_needed:.1f} hours** of your life. Is it worth it?")
-        #Change the "Vibe" with Sidebar & Tabs
-        st.title("Smart Expense Tracker")
-
-        # Create three tabs for your features
-        tab1, tab2, tab3 = st.tabs(["📊 Dashboard", "🧠 Impulse Control", "📈 Forecast"])
-
-        with tab1:
-             st.header("Monthly Overview")
-       # Add your charts here
-       st.metric(label="Food Expenses", value="₹4,500", delta="-₹300", delta_color="normal")
-       # Use delta_color="inverse" if a 'positive' number is actually bad (like debt)
-       st.markdown(":green[Total Savings: ₹5,000]")
-       st.markdown(":red[Alert: Impulse Purchase Detected!]")
+       
