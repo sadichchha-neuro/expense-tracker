@@ -47,7 +47,7 @@ with st.sidebar:
 
     # Impulse threshold setting
     impulse_threshold = st.number_input(
-        "Impulse threshold ($)",
+        "Impulse threshold (Rupees)",
         min_value=1.0,
         value=logic.DEFAULT_IMPULSE_THRESHOLD,
         step=5.0,
