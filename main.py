@@ -25,7 +25,7 @@ with st.sidebar:
     exp_date = st.date_input("Date", value=datetime.now().date())
     exp_category = st.selectbox("Category", logic.CATEGORIES)
     exp_description = st.text_input("Description")
-    exp_amount = st.number_input("Amount (Rupees)", min_value=0.01, step=0.01, format="%.2f")
+    exp_amount = st.number_input("Amount (Rupees )", min_value=0.01, step=0.01, format="%.2f")
 
     # Hourly wage for "Hours of Life" calculator
     hourly_wage = st.number_input(
@@ -143,7 +143,7 @@ if pending:
             st.markdown(f"- {r}")
         st.info(risk["suggestion"])
     with col_warn2:
-        st.metric("Amount", f"${pending['amount']:,.2f}")
+        st.metric("Amount", f"Rupees {pending['amount']:,.2f}")
         st.caption(f"{pending['category']}")
 
     col_a, col_b = st.columns(2)
@@ -182,11 +182,11 @@ with tab_overview:
     total_spent = month_df["amount"].sum() if not month_df.empty else 0.0
 
     c1, c2, c3 = st.columns(3)
-    c1.metric("Spent This Month", f"${total_spent:,.2f}")
-    c2.metric("Budget", f"Rupees{budget:,.2f}" if budget else "Not set")
+    c1.metric("Spent This Month", f"Rupees {total_spent:,.2f}")
+    c2.metric("Budget", f"Rupees {budget:,.2f}" if budget else "Not set")
     if budget and budget > 0:
         remaining = budget - total_spent
-        c3.metric("Remaining", f"Rupees{remaining:,.2f}", delta=f"{remaining / budget * 100:.0f}%")
+        c3.metric("Remaining", f"Rupees {remaining:,.2f}", delta=f"{remaining / budget * 100:.0f}%")
     else:
         c3.metric("Remaining", "N/A")
 
@@ -204,8 +204,8 @@ with tab_burn:
     burn = logic.calculate_burn_rate()
 
     c1, c2, c3 = st.columns(3)
-    c1.metric("Daily Burn Rate", f"Rupees{burn['daily_rate']:,.2f}")
-    c2.metric("Projected Monthly Total", f"Rupees{burn['monthly_projection']:,.2f}")
+    c1.metric("Daily Burn Rate", f"Rupees {burn['daily_rate']:,.2f}")
+    c2.metric("Projected Monthly Total", f"Rupees {burn['monthly_projection']:,.2f}")
     c3.metric(
         "Days Left in Month",
         burn["days_remaining"],
@@ -214,7 +214,7 @@ with tab_burn:
     if burn["budget"]:
         st.divider()
         bc1, bc2, bc3 = st.columns(3)
-        bc1.metric("Budget", f"Rupees{burn['budget']:,.2f}")
+        bc1.metric("Budget", f"Rupees {burn['budget']:,.2f}")
         bc2.metric(
             "Budget Remaining",
             f"Rupees{burn['budget_remaining']:,.2f}" if burn["budget_remaining"] is not None else "N/A",
